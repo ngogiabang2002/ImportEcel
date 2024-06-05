@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ImportExcel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0acea2d3d232c606d06c9e6d4a73f2baa091e4d3")]
 [assembly: System.Reflection.AssemblyProductAttribute("ImportExcel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ImportExcel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

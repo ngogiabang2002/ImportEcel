@@ -2,101 +2,140 @@
 @model MyModel
 
 <div class="text-center">
-<form id="fileUploadForm" enctype="multipart/form-data" method="post" action="/Home/UploadFile">
-    <input type="file" name="uploadedFile" id="uploadedFile" />
-    <button type="submit">Upload</button>
-</form>
-<hr />
-
+    <form id="fileUploadForm" enctype="multipart/form-data" method="post" action="/Home/UploadFile">
+        <input type="file" name="uploadedFile" id="uploadedFile" />
+        <button type="submit">Upload</button>
+    </form>
+    <hr />
 </div>
+<style>
+    .select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #000; /* Màu sắc của mũi tên */
+    }
 
+    #merge {
+        float: right;
+        border: 1px solid #000; /* Màu và kiểu đường viền */
+        padding: 6px 12px; /* Khoảng cách giữa văn bản và đường viền */
+        border-radius: 4px; /* Bo tròn các góc của đường viền */
+    }
+
+</style>
 <div class="col-lg-8 pl-0">
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-md-5">
             <label class="control-label">Cột dữ liệu excel</label>
             <div class="input-group br24">
                 <select id="a" class="form-control">
-                    <option value="">Cột dữ liệu excel...</option>
+                    <option value=""></option>
                 </select>
-                <button type="button" class="btn btn-default no-shadow">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>
+                <span class="select-arrow"></span>
             </div>
         </div>
         <div class="col-md-6">
             <label class="control-label">Trường dữ liệu bảng</label>
             <div class="input-group br24">
                 <select id="b" class="form-control">
-                    <option value="">Trường dữ liệu bảng...</option>
+                    <option value=""></option>
                 </select>
-                <button id="merge" style="color: red" type="button" class="btn btn-default no-shadow">
-                    <span style="color: red" class="glyphicon glyphicon-remove">aaaaaaaaaaaa</span>
-                </button>
-                <button id="remove" style="color: red" type="button" class="btn btn-default no-shadow">
-                    <span style="color: red" class="glyphicon glyphicon-remove">Remove Selected</span>
-                </button>
+                <span class="select-arrow"></span>
             </div>
         </div>
-        <span class="btn btn-default btn-choose disabled" style="display: inline-block;">
-            <i class="fa fa-check"></i>
-        </span>
+        <div class="col-md-1">
+            <button id="merge" style="color: #000; margin-top: 25px;" type="button" class="btn btn-default no-shadow">
+                <span style="color: #000" class="glyphicon glyphicon-remove">Gắn</span>
+            </button>
+        </div>
     </div>
 </div>
+
+
 <div class="form-group col-md-12 p-0">
     <div class="col-md-12 p-0 has-error">
-        <label class="">Label Text (translate if needed)</label>
-        <select multiple class="form-control h-70 br12" id="result">
-            <option value="">Select User...</option>
-        </select>
-        <span class="label-color validation-message">
-            MS_VALIDATE_EMPLOYEE (translate if needed)
-        </span>
+        <label class="label-color">Bảng dữ liệu</label>
+        <table id="resultTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cột Excel</th>
+                    <th>Trường Dữ Liệu Bảng</th>
+                    <th>Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added here dynamically -->
+            </tbody>
+        </table>
     </div>
 </div>
 
-
 <script>
-    document.getElementById('merge').addEventListener('click', function () {
-        var excelColumnSelect = document.getElementById('a');
-        var tableColumnSelect = document.getElementById('b');
+    let currentId = 1;
 
-        var selectedExcelColumn = excelColumnSelect.value;
-        var selectedTableColumn = tableColumnSelect.value;
+    document.getElementById('merge').addEventListener('click', function () {
+        const excelColumnSelect = document.getElementById('a');
+        const tableColumnSelect = document.getElementById('b');
+
+        const selectedExcelColumn = excelColumnSelect.value;
+        const selectedTableColumn = tableColumnSelect.value;
 
         if (selectedExcelColumn && selectedTableColumn) {
-            var resultSelect = document.getElementById('result');
-            var newOption = document.createElement("option");
-            newOption.value = selectedExcelColumn + " - " + selectedTableColumn;
-            newOption.text = selectedExcelColumn + " - " + selectedTableColumn;
-            resultSelect.appendChild(newOption);
-
-            console.log('You selected Excel column: ' + selectedExcelColumn + ' and table column: ' + selectedTableColumn);
+            const displayValue = selectedExcelColumn + " - " + selectedTableColumn;
+            const data = getDataFromTable(selectedExcelColumn, selectedTableColumn);
+            addRowToTable(currentId++, displayValue, selectedTableColumn, data);
         } else {
             console.log('Please select both an Excel column and a table column.');
         }
     });
-    document.getElementById('a').addEventListener('change', updateLabel);
-    document.getElementById('b').addEventListener('change', updateLabel);
-    function updateLabel() {
-        var excelColumnValue = document.getElementById('a').value;
-        var tableRowValue = document.getElementById('b').value;
-        var combinedValue = excelColumnValue + "-" + tableRowValue;
-        document.querySelector('.label-color').textContent = combinedValue;
+
+    function addRowToTable(id, excelColumn, tableColumn, data) {
+        const table = document.getElementById('resultTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+
+        const idCell = newRow.insertCell(0);
+        idCell.appendChild(document.createTextNode(id));
+
+        const excelColumnCell = newRow.insertCell(1);
+        excelColumnCell.appendChild(document.createTextNode(excelColumn));
+
+        const tableColumnCell = newRow.insertCell(2);
+        tableColumnCell.appendChild(document.createTextNode(data));
+
+        // const dataCell = newRow.insertCell(3);
+        // dataCell.appendChild(document.createTextNode(data));
+
+        const deleteCell = newRow.insertCell(3);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Xóa';
+        deleteButton.addEventListener('click', function () {
+            table.deleteRow(newRow.rowIndex - 1);
+        });
+        deleteCell.appendChild(deleteButton);
     }
 
-    document.getElementById('remove').addEventListener('click', function () {
-        var resultSelect = document.getElementById('result');
-        var selectedOptions = Array.from(resultSelect.selectedOptions);
+    function getDataFromTable(excelColumn, tableRow) {
+        const table = document.getElementById('excelTable').querySelector('table');
+        if (!table) return '';
+        const columnIndex = Array.from(table.rows[0].cells).findIndex(cell => cell.innerText.trim() === excelColumn);
+        if (columnIndex === -1) return '';
+        const rowIndex = Array.from(table.rows).findIndex(row => row.cells[0].innerText.trim() === tableRow);
+        if (rowIndex === -1) return '';
+        return table.rows[rowIndex].cells[columnIndex].innerText.trim();
+    }
 
-        selectedOptions.forEach(option => option.remove());
-
-        console.log('Selected options removed.');
-    }); 
     document.getElementById('fileUploadForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Ngăn chặn gửi form một cách tự động
+        event.preventDefault();
 
-        var formData = new FormData();
-        formData.append('uploadedFile', document.getElementById('uploadedFile').files[0]); // Lấy file đã được chọn
+        const formData = new FormData();
+        formData.append('uploadedFile', document.getElementById('uploadedFile').files[0]);
 
         fetch('/Home/UploadFile', {
             method: 'POST',
@@ -105,36 +144,38 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('excelTable').innerHTML = data;
-                addOptionsToDropdowns();
+                fillComboBoxes();
             })
             .catch(error => console.error('Error:', error));
     });
+
     function fillComboBoxes() {
-        var table = document.getElementById('excelTable').querySelector('table');
+        const table = document.getElementById('excelTable').querySelector('table');
         if (!table) return;
 
-        var excelColumnSelect = document.getElementById('a');
-        var tableRowSelect = document.getElementById('b');
+        const excelColumnSelect = document.getElementById('a');
+        const tableRowSelect = document.getElementById('b');
         excelColumnSelect.innerHTML = '<option value="">Cột dữ liệu excel...</option>';
         tableRowSelect.innerHTML = '<option value="">Trường dữ liệu bảng...</option>';
-        for (var i = 0; i < table.rows[0].cells.length; i++) {
-            var cellValue = table.rows[0].cells[i].innerText.trim();
-            var option = document.createElement("option");
+
+        for (let i = 0; i < table.rows[0].cells.length; i++) {
+            const cellValue = table.rows[0].cells[i].innerText.trim();
+            const option = document.createElement("option");
             option.value = cellValue;
             option.text = cellValue;
             excelColumnSelect.appendChild(option);
         }
-        for (var i = 1; i < table.rows.length; i++) {
-            var cellValue = table.rows[i].cells[0].innerText.trim();
-            var option = document.createElement("option");
+
+        for (let i = 1; i < table.rows.length; i++) {
+            const cellValue = table.rows[i].cells[0].innerText.trim();
+            const option = document.createElement("option");
             option.value = cellValue;
             option.text = cellValue;
             tableRowSelect.appendChild(option);
         }
     }
+
     window.onload = fillComboBoxes;
-
-
 </script>
 
 <div class="table-responsive" id="excelTable">
@@ -144,11 +185,12 @@
             max-width: 100%;
             margin-bottom: 0;
         }
+
             table td,
             table th {
                 word-break: break-all;
                 max-width: 100%;
-                padding: 8px; 
+                padding: 8px;
             }
     </style>
     @Html.Raw(Model.HtmlContent)

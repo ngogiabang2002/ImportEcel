@@ -87,6 +87,7 @@ namespace ImportExcel.Controllers
 
                     sb.Append("</tbody>");
                     sb.Append("</table>");
+                    
                 }
 
                 ViewBag.Message = "File uploaded successfully.";
