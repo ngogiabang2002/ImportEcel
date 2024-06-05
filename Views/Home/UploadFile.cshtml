@@ -1,0 +1,155 @@
+﻿@using ImportExcel.Controllers
+@model MyModel
+
+<div class="text-center">
+<form id="fileUploadForm" enctype="multipart/form-data" method="post" action="/Home/UploadFile">
+    <input type="file" name="uploadedFile" id="uploadedFile" />
+    <button type="submit">Upload</button>
+</form>
+<hr />
+
+</div>
+
+<div class="col-lg-8 pl-0">
+    <div class="form-group">
+        <div class="col-md-5">
+            <label class="control-label">Cột dữ liệu excel</label>
+            <div class="input-group br24">
+                <select id="a" class="form-control">
+                    <option value="">Cột dữ liệu excel...</option>
+                </select>
+                <button type="button" class="btn btn-default no-shadow">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="control-label">Trường dữ liệu bảng</label>
+            <div class="input-group br24">
+                <select id="b" class="form-control">
+                    <option value="">Trường dữ liệu bảng...</option>
+                </select>
+                <button id="merge" style="color: red" type="button" class="btn btn-default no-shadow">
+                    <span style="color: red" class="glyphicon glyphicon-remove">aaaaaaaaaaaa</span>
+                </button>
+                <button id="remove" style="color: red" type="button" class="btn btn-default no-shadow">
+                    <span style="color: red" class="glyphicon glyphicon-remove">Remove Selected</span>
+                </button>
+            </div>
+        </div>
+        <span class="btn btn-default btn-choose disabled" style="display: inline-block;">
+            <i class="fa fa-check"></i>
+        </span>
+    </div>
+</div>
+<div class="form-group col-md-12 p-0">
+    <div class="col-md-12 p-0 has-error">
+        <label class="">Label Text (translate if needed)</label>
+        <select multiple class="form-control h-70 br12" id="result">
+            <option value="">Select User...</option>
+        </select>
+        <span class="label-color validation-message">
+            MS_VALIDATE_EMPLOYEE (translate if needed)
+        </span>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('merge').addEventListener('click', function () {
+        var excelColumnSelect = document.getElementById('a');
+        var tableColumnSelect = document.getElementById('b');
+
+        var selectedExcelColumn = excelColumnSelect.value;
+        var selectedTableColumn = tableColumnSelect.value;
+
+        if (selectedExcelColumn && selectedTableColumn) {
+            var resultSelect = document.getElementById('result');
+            var newOption = document.createElement("option");
+            newOption.value = selectedExcelColumn + " - " + selectedTableColumn;
+            newOption.text = selectedExcelColumn + " - " + selectedTableColumn;
+            resultSelect.appendChild(newOption);
+
+            console.log('You selected Excel column: ' + selectedExcelColumn + ' and table column: ' + selectedTableColumn);
+        } else {
+            console.log('Please select both an Excel column and a table column.');
+        }
+    });
+    document.getElementById('a').addEventListener('change', updateLabel);
+    document.getElementById('b').addEventListener('change', updateLabel);
+    function updateLabel() {
+        var excelColumnValue = document.getElementById('a').value;
+        var tableRowValue = document.getElementById('b').value;
+        var combinedValue = excelColumnValue + "-" + tableRowValue;
+        document.querySelector('.label-color').textContent = combinedValue;
+    }
+
+    document.getElementById('remove').addEventListener('click', function () {
+        var resultSelect = document.getElementById('result');
+        var selectedOptions = Array.from(resultSelect.selectedOptions);
+
+        selectedOptions.forEach(option => option.remove());
+
+        console.log('Selected options removed.');
+    }); 
+    document.getElementById('fileUploadForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Ngăn chặn gửi form một cách tự động
+
+        var formData = new FormData();
+        formData.append('uploadedFile', document.getElementById('uploadedFile').files[0]); // Lấy file đã được chọn
+
+        fetch('/Home/UploadFile', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('excelTable').innerHTML = data;
+                addOptionsToDropdowns();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    function fillComboBoxes() {
+        var table = document.getElementById('excelTable').querySelector('table');
+        if (!table) return;
+
+        var excelColumnSelect = document.getElementById('a');
+        var tableRowSelect = document.getElementById('b');
+        excelColumnSelect.innerHTML = '<option value="">Cột dữ liệu excel...</option>';
+        tableRowSelect.innerHTML = '<option value="">Trường dữ liệu bảng...</option>';
+        for (var i = 0; i < table.rows[0].cells.length; i++) {
+            var cellValue = table.rows[0].cells[i].innerText.trim();
+            var option = document.createElement("option");
+            option.value = cellValue;
+            option.text = cellValue;
+            excelColumnSelect.appendChild(option);
+        }
+        for (var i = 1; i < table.rows.length; i++) {
+            var cellValue = table.rows[i].cells[0].innerText.trim();
+            var option = document.createElement("option");
+            option.value = cellValue;
+            option.text = cellValue;
+            tableRowSelect.appendChild(option);
+        }
+    }
+    window.onload = fillComboBoxes;
+
+
+</script>
+
+<div class="table-responsive" id="excelTable">
+    <style>
+        table {
+            width: auto;
+            max-width: 100%;
+            margin-bottom: 0;
+        }
+            table td,
+            table th {
+                word-break: break-all;
+                max-width: 100%;
+                padding: 8px; 
+            }
+    </style>
+    @Html.Raw(Model.HtmlContent)
+</div>

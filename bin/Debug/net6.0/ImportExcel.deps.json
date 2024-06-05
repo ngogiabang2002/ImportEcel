@@ -1,0 +1,75 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "ImportExcel/1.0.0": {
+        "dependencies": {
+          "Syncfusion.XlsIO.Net.Core": "25.2.7"
+        },
+        "runtime": {
+          "ImportExcel.dll": {}
+        }
+      },
+      "Syncfusion.Compression.Net.Core/25.2.7": {
+        "runtime": {
+          "lib/net6.0/Syncfusion.Compression.Portable.dll": {
+            "assemblyVersion": "25.2.7.0",
+            "fileVersion": "25.2.7.0"
+          }
+        }
+      },
+      "Syncfusion.Licensing/25.2.7": {
+        "runtime": {
+          "lib/net6.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "25.2.7.0",
+            "fileVersion": "25.2.7.0"
+          }
+        }
+      },
+      "Syncfusion.XlsIO.Net.Core/25.2.7": {
+        "dependencies": {
+          "Syncfusion.Compression.Net.Core": "25.2.7",
+          "Syncfusion.Licensing": "25.2.7"
+        },
+        "runtime": {
+          "lib/net6.0/Syncfusion.XlsIO.Portable.dll": {
+            "assemblyVersion": "25.2.7.0",
+            "fileVersion": "25.2.7.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ImportExcel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Syncfusion.Compression.Net.Core/25.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-w6oWShyWU9yVIZQYFPz8bvxQ4U2YY3TfPoYBvB1jheBb4Jsid+iKUSv6Ft8vXUQFW0p0gRgNnupR6+0L8aqWiA==",
+      "path": "syncfusion.compression.net.core/25.2.7",
+      "hashPath": "syncfusion.compression.net.core.25.2.7.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/25.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nOUiwIehDY1SGNBGwGC9v1xKLA78ytv6BScktV7vUrH76a1PBXGJwhhq+PzHVROr6Y+3Ch3XrrbUOt3AQyNlVQ==",
+      "path": "syncfusion.licensing/25.2.7",
+      "hashPath": "syncfusion.licensing.25.2.7.nupkg.sha512"
+    },
+    "Syncfusion.XlsIO.Net.Core/25.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-stHXzSBiKVjI9PqA6MO9/mOTaGYpl/IsVyb9BzG6q/ORJDr3tshJsQrkPkO/XKSgzn+DvIw+vUkt8Clz26GfUg==",
+      "path": "syncfusion.xlsio.net.core/25.2.7",
+      "hashPath": "syncfusion.xlsio.net.core.25.2.7.nupkg.sha512"
+    }
+  }
+}

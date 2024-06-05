@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Excel File</title>
+    <style>
+        .text-center {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h2>Upload Excel File</h2>
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="/YourController/UploadFile">
+            <input type="file" name="uploadedFile" accept=".xlsx, .xls">
+            <button type="submit">Upload</button>
+        </form>
+        <div id="fileContent"></div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', this.action, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('fileContent').innerHTML = xhr.responseText;
+                } else {
+                    alert('File upload failed!');
+                }
+            };
+
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>

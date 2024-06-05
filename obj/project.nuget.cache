@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "3lhso/zOuVMz4FExSMJzFyYt1ViCygU+WP5tTm6632cFgHrRzF4vU6Wnre4Ucvl2QqlX98F5+6YIYyLyMh9eYg==",
+  "success": true,
+  "projectFilePath": "D:\\ImportExcel\\ImportExcel.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ngogi\\.nuget\\packages\\syncfusion.compression.net.core\\25.2.7\\syncfusion.compression.net.core.25.2.7.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\syncfusion.licensing\\25.2.7\\syncfusion.licensing.25.2.7.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\syncfusion.xlsio.net.core\\25.2.7\\syncfusion.xlsio.net.core.25.2.7.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\ngogi\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.25\\microsoft.netcore.app.host.win-x64.6.0.25.nupkg.sha512"
+  ],
+  "logs": []
+}
